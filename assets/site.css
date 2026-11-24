@@ -508,3 +508,29 @@ footer a:hover{color:var(--blue)}
 .values.four{grid-template-columns:repeat(4,1fr)}
 @media(max-width:1000px){.values.four{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.values.four{grid-template-columns:1fr}}
+
+/* Why WebCreator comparison */
+.cmp{border-radius:30px;padding:10px 10px 6px;overflow-x:auto;max-width:980px;margin:0 auto}
+.cmp table{width:100%;border-collapse:collapse;min-width:640px}
+.cmp th,.cmp td{padding:16px 18px;text-align:center;font-size:.92rem;border-bottom:1px solid rgba(29,42,56,.07)}
+.cmp tbody tr:last-child th,.cmp tbody tr:last-child td{border-bottom:0}
+.cmp thead th{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);font-weight:600}
+.cmp tbody th{text-align:left;font-weight:500}
+.cmp td.n{color:var(--mute)}
+.cmp td.m{color:var(--dim)}
+.cmp td.y{color:var(--blue);font-weight:600}
+.cmp .me{background:rgba(26,92,255,.07)}
+.cmp thead th.me{color:var(--blue);border-radius:18px 18px 0 0}
+/* Add-ons */
+.adds{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+@media(max-width:1150px){.adds{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.adds{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.adds{grid-template-columns:1fr}}
+.add{border-radius:26px;padding:26px;display:flex;flex-direction:column}
+.add h3{font-size:1.15rem;font-weight:500;margin:10px 0 8px}
+.add p{color:var(--dim);font-size:.9rem;flex:1}
+.add .ap{display:flex;align-items:baseline;gap:8px;margin:18px 0 16px}
+.add .ap b{font-size:2.2rem;font-weight:200;letter-spacing:-.04em}
+.add .ap small{color:var(--dim);font-size:.8rem}
+.add.bundle{background:radial-gradient(80% 80% at 100% 0%,#2f6bff,#0f2a7a 70%);color:#fff;box-shadow:0 30px 70px rgba(26,92,255,.3)}
+.add.bundle p,.add.bundle .ap small{color:rgba(255,255,255,.8)}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://webcreator.techbydave.com/sitemap.xml

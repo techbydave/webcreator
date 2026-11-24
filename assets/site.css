@@ -478,3 +478,8 @@ footer a:hover{color:var(--blue)}
 .portrait img{object-position:50% 22%}
 .portrait .ph{z-index:0}.portrait img{z-index:1}.portrait .tag{z-index:2}
 .portrait::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,transparent 55%,rgba(20,40,70,.25))}
+/* floating nav: always one tidy line */
+.pnav{flex-wrap:nowrap;white-space:nowrap;max-width:calc(100vw - 28px)}
+.pnav a.l,.pnav .brand,.pnav .btn,.nav ul a{white-space:nowrap}
+.pnav a.l{line-height:1;padding:10px 14px}
+@media(max-width:1040px){.pnav a.l[data-opt]{display:none}}

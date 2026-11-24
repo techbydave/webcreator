@@ -175,7 +175,7 @@ if (rank) {
 }
 
 const box = $("#faqs");
-if (box) {
+if (box && !box.children.length) {
   const faqs = [
     ["Do I need to know anything about tech?", "No. I set everything up and show you how your dashboard works in a short call. If you can use email, you can use it."],
     ["What do I need to give you to start?", "Your business name, logo (or I can design one), the services you offer, your hours and contact details, and any photos you have. I'll send a short checklist."],
@@ -186,8 +186,8 @@ if (box) {
     ["Do you work with businesses outside Toronto?", "Yes. Everything is done online, by video call and email."],
   ];
   box.innerHTML = faqs.map(([q, a], i) => `<div class="q glass"><button type="button" aria-expanded="false" aria-controls="a${i}">${q}<i aria-hidden="true"></i></button><div class="a" id="a${i}"><div><p>${a}</p></div></div></div>`).join("");
-  box.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; const q = b.parentElement, open = !q.classList.contains("open"); q.classList.toggle("open", open); b.setAttribute("aria-expanded", String(open)); });
 }
+$$(".faq").forEach((f) => f.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; const q = b.parentElement, open = !q.classList.contains("open"); q.classList.toggle("open", open); b.setAttribute("aria-expanded", String(open)); }));
 
 $$("[data-plan]").forEach((a) => a.addEventListener("click", () => { const p = $("#p"); if (p) p.value = a.dataset.plan; }));
 

@@ -483,3 +483,28 @@ footer a:hover{color:var(--blue)}
 .pnav a.l,.pnav .brand,.pnav .btn,.nav ul a{white-space:nowrap}
 .pnav a.l{line-height:1;padding:10px 14px}
 @media(max-width:1040px){.pnav a.l[data-opt]{display:none}}
+
+/* Industry pages */
+.crumbs{font-size:.8rem;color:var(--dim);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.crumbs a{border-bottom:1px solid rgba(29,42,56,.25)}
+.nicard{border-radius:30px;padding:30px;max-width:400px;justify-self:end;width:100%}
+.nicard .price{font-size:3.4rem;font-weight:200;letter-spacing:-.05em;line-height:1;margin:14px 0 18px}
+.nicard .price small{font-size:.85rem;letter-spacing:0;color:var(--dim);font-weight:400}
+.nicard ul{list-style:none;display:grid;gap:10px;margin-bottom:20px}
+.nicard li{display:flex;gap:10px;align-items:flex-start;font-size:.95rem}
+.nicard li::before{content:"";flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;background:var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center/12px no-repeat}
+.nicard .live{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600;color:var(--blue)}
+.nicard .live::before{content:"";width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.2)}
+@media(max-width:900px){.nicard{justify-self:start}}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feats .chap::before{display:none}
+@media(max-width:900px){.feats{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.feats{grid-template-columns:1fr}}
+.niche .word{opacity:.9}
+.inds{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.inds a{padding:14px 24px;border-radius:999px;font-weight:500;display:inline-flex;align-items:center;gap:10px;transition:transform .3s}
+.inds a:hover{transform:translateY(-3px)}
+.inds a i{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.values.four{grid-template-columns:repeat(4,1fr)}
+@media(max-width:1000px){.values.four{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.values.four{grid-template-columns:1fr}}

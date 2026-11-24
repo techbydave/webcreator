@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found | WebCreator by TechByDave</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<script>
+// Apps like Instagram turn "#" into "%23" (e.g. /%23contact). Send those visitors to the right section.
+(function () {
+  var p = location.pathname, i = p.toLowerCase().indexOf("%23");
+  if (i !== -1) location.replace(p.slice(0, i) + "#" + decodeURIComponent(p.slice(i + 3)));
+})();
+</script>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d2a38;background:radial-gradient(70% 60% at 50% 35%,#f4f8fb,#dce7ef 40%,#b9cddc 80%,#a4bccf)}
+main{text-align:center;padding:24px}
+b{display:block;font-family:Georgia,serif;font-weight:500;font-size:clamp(5rem,20vw,10rem);line-height:1;color:rgba(255,255,255,.85)}
+h1{font-weight:300;font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-.03em;margin:10px 0}
+p{color:#5d6f80}
+a{display:inline-block;margin-top:18px;padding:13px 24px;border-radius:999px;background:linear-gradient(180deg,#4f86ff,#1a5cff);color:#fff;text-decoration:none;font-weight:500}
+</style>
+</head>
+<body>
+<main>
+  <b>404</b>
+  <h1>This page doesn't exist.</h1>
+  <p>The link may be old or mistyped.</p>
+  <a href="/">Go to the homepage</a>
+</main>
+</body>
+</html>

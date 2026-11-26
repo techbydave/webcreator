@@ -209,6 +209,9 @@ quote?.addEventListener("submit", (e) => {
 (() => {
   const CUR = [["USD","$"],["CAD","$"],["GBP","£"],["EUR","€"],["AUD","$"],["GHS","₵"],["NGN","₦"]];
   const FALLBACK = { USD: 1, CAD: 1.38, GBP: 0.75, EUR: 0.87, AUD: 1.43, GHS: 11.2, NGN: 1375 }; // Nov 2026
+  // Fixed prices for currencies Dave bills in directly (USD amount -> local amount).
+  // Any USD amount missing here falls back to the converted price.
+  const FIXED = { CAD: { 349: 479, 899: 1249, 39: 55, 40: 55, 75: 99, 35: 49, 150: 199, 120: 159, 199: 279, 79: 109, 149: 209, 249: 339, 58: 88 } };
   let rates = { ...FALLBACK }, live = false;
   const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
                   set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
@@ -254,14 +257,15 @@ quote?.addEventListener("submit", (e) => {
   const render = () => {
     const r = rates[code] || 1;
     prices.forEach((el) => {
-      const usd = +el.dataset.usd, txt = code === "USD" ? "$" + usd.toLocaleString("en") : fmt(nice(usd * r), code);
+      const usd = +el.dataset.usd, fixed = FIXED[code] && FIXED[code][usd];
+      const txt = code === "USD" ? "$" + usd.toLocaleString("en") : fmt(fixed || nice(usd * r), code);
       el.textContent = txt;
       const big = el.closest(".price b,.ap b,.nicard .price,.stat");
       el.style.fontSize = big && txt.length > 6 ? (6.4 / txt.length).toFixed(2) + "em" : "";
     });
     document.querySelectorAll(".curcode").forEach((el) => (el.textContent = code));
     document.querySelectorAll(".curnote").forEach((el) => {
-      el.innerHTML = code === "USD" ? "Prices in USD."
+      el.innerHTML = code === "USD" ? "Prices in USD." : FIXED[code] ? `Prices in ${code === "CAD" ? "Canadian dollars" : code}.`
         : `Prices shown in ${code}, converted from USD at ${live ? "today's" : "a recent"} exchange rate and rounded. Your quote confirms the exact price.` +
           (live ? ' <a class="ratesby" href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Rates by ExchangeRate-API</a>' : "");
     });

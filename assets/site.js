@@ -113,15 +113,20 @@ onScroll();
 const site = $("#site");
 if (site) {
   const scenes = [
-    { name: "Agape Counselling", bg: "#16312d", img: "radial-gradient(circle at 30% 30%,#8fd3c0,#3f8a7a 45%,#1c3f39)", h: "Healing starts at home.", p: "Individual, couple and family counselling.", btn: "#e9f3ef", ink: "#16312d", cta: "Book a session", t: "Appointment approved", s: "Thu · 2:00 pm · In person" },
-    { name: "Bloom Studio", bg: "#2b1720", img: "radial-gradient(circle at 70% 30%,#ffd1dc,#c06c84 45%,#5b2a3a)", h: "Hair that feels like you.", p: "Cuts, colour and braids by appointment.", btn: "#ffd1dc", ink: "#2b1720", cta: "Book a chair", t: "New booking request", s: "Sat · 11:30 am · Colour" },
-    { name: "Spotless Co.", bg: "#0e2340", img: "radial-gradient(circle at 40% 30%,#bfe1ff,#4f86ff 45%,#123a7a)", h: "Your home, sparkling.", p: "Weekly and deep cleans across the GTA.", btn: "#ffffff", ink: "#0e2340", cta: "Get a quote", t: "Quote request received", s: "3-bedroom · Deep clean" },
+    { shot: "images/phone-ron.jpg", alt: "RON Family Agape Counselling website on a phone", name: "Agape Counselling", bg: "#16312d", img: "radial-gradient(circle at 30% 30%,#8fd3c0,#3f8a7a 45%,#1c3f39)", h: "Healing starts at home.", p: "Individual, couple and family counselling.", btn: "#e9f3ef", ink: "#16312d", cta: "Book a session", t: "Appointment approved", s: "Thu · 2:00 pm · In person" },
+    { shot: "images/phone-salon.jpg", alt: "Example salon website on a phone, with services and a Book a chair button", name: "Bloom Studio", bg: "#2b1720", img: "radial-gradient(circle at 70% 30%,#ffd1dc,#c06c84 45%,#5b2a3a)", h: "Hair that feels like you.", p: "Cuts, colour and braids by appointment.", btn: "#ffd1dc", ink: "#2b1720", cta: "Book a chair", t: "New booking request", s: "Sat · 11:30 am · Colour" },
+    { shot: "images/phone-clean.jpg", alt: "Example cleaning company website on a phone, with an instant estimate", name: "Spotless Co.", bg: "#0e2340", img: "radial-gradient(circle at 40% 30%,#bfe1ff,#4f86ff 45%,#123a7a)", h: "Your home, sparkling.", p: "Weekly and deep cleans across the GTA.", btn: "#ffffff", ink: "#0e2340", cta: "Get a quote", t: "Quote request received", s: "3-bedroom · Deep clean" },
   ];
+  scenes.forEach((s) => { if (s.shot) { const im = new Image(); im.src = s.shot; } });
   const toast = $("#toast");
   let scene = 0, toastTimer = 0, auto = 0;
   const paint = (i) => {
     const s = scenes[i];
     site.style.background = s.bg;
+    if (s.shot) {
+      site.innerHTML = `<img class="shotimg" src="${s.shot}" alt="">`; $("img", site).alt = s.alt;
+      $("#toast-t").textContent = s.t; $("#toast-s").textContent = s.s; return;
+    }
     site.innerHTML = `<div class="top"><span></span><i></i></div><div class="heroimg"></div><h5></h5><p></p><div class="book"></div><div class="chips"><span></span><span></span><span></span></div>`;
     $(".top span", site).textContent = s.name; $(".heroimg", site).style.background = s.img;
     $("h5", site).textContent = s.h; $("p", site).textContent = s.p;

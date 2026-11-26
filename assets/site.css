@@ -628,3 +628,26 @@ footer.sitefoot .fbase{display:flex;justify-content:space-between;flex-wrap:wrap
 .add .ap small,.price small{white-space:nowrap}
 .add .ap{flex-direction:column;align-items:flex-start;gap:2px}
 .addons .cur{padding:0;border-radius:0;background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;color:inherit}
+/* real screenshots on the hero phone */
+.site .shotimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+
+/* ---------- promises under the hero ---------- */
+.promise{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.promise li{display:flex;gap:12px;align-items:flex-start;padding:16px 18px;border-radius:20px;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.85);font-size:.84rem;color:var(--dim);line-height:1.4}
+.promise svg{flex:none;width:34px;height:34px;padding:8px;border-radius:11px;background:#fff;color:var(--blue);box-shadow:0 6px 14px rgba(52,82,110,.1)}
+.promise b{display:block;color:var(--ink);font-weight:600;font-size:.92rem;margin-bottom:2px}
+@media(max-width:1000px){.promise{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.promise{grid-template-columns:1fr;gap:8px}.promise li{padding:13px 14px}}
+
+/* ---------- mid-page nudge ---------- */
+section.nudge{padding:40px 0 10px}
+.nudgebox{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center;padding:46px 50px;border-radius:32px;color:#eaf1ff;
+  background:radial-gradient(60% 90% at 100% 0%,rgba(79,134,255,.55),transparent 65%),linear-gradient(160deg,#0a1a38,#0d2756);box-shadow:0 30px 70px rgba(8,20,40,.28)}
+.nudgebox h2{color:#fff;font-size:clamp(1.9rem,3.4vw,2.8rem)}
+.nudgebox h2 em{color:#8fb8ff}
+.nudgebox p{color:rgba(226,236,255,.78);margin-top:14px;max-width:520px}
+.nudgecta{display:flex;flex-direction:column;align-items:flex-start;gap:14px;justify-self:end}
+.nudgemail{color:rgba(226,236,255,.8);font-size:.9rem;border-bottom:1px solid rgba(226,236,255,.35);padding-bottom:1px}
+.nudgemail:hover{color:#fff}
+@media(max-width:860px){.nudgebox{grid-template-columns:1fr;padding:34px 24px;gap:24px}.nudgecta{justify-self:start}}
+@media(max-width:520px){.promise{grid-template-columns:1fr 1fr}.promise li{flex-direction:column;gap:8px;font-size:.78rem}.promise b{font-size:.86rem}.promise svg{width:30px;height:30px;padding:7px}}

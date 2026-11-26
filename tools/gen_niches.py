@@ -190,7 +190,7 @@ def page(p):
 <script type="application/ld+json">
 {json.dumps(ld, ensure_ascii=False)}
 </script>
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/site.css?v=202611252355">
 </head>
 <body>
 <div class="progress" aria-hidden="true"></div>
@@ -281,7 +281,7 @@ def page(p):
   <nav class="fcol" aria-label="Contact"><h4>Say hello</h4><a href="mailto:dave@techbydave.com">dave@techbydave.com</a><a href="https://www.instagram.com/webcreator.dave/" target="_blank" rel="noopener">Instagram</a><a href="/about.html">About Dave</a><a href="https://techbydave.com">TechByDave</a></nav>
 </div><div class="wrap fbase"><span>© <span class="year">2026</span> TechByDave, Toronto, Canada</span><span>Fixed prices. You own your domain, site and content.</span></div></footer>
 
-<script src="assets/site.js"></script>
+<script src="assets/site.js?v=202611252355"></script>
 </body>
 </html>
 '''

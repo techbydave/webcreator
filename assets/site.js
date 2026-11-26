@@ -201,3 +201,95 @@ quote?.addEventListener("submit", (e) => {
   location.href = `mailto:dave@techbydave.com?subject=${encodeURIComponent("Website quote: " + f.business.value)}&body=${encodeURIComponent(body)}`;
 });
 }
+
+/* ---------- currency switcher ----------
+   Prices are written in USD. This adds a currency picker to the top bars and
+   converts every $ amount on the page. Live rates come from ExchangeRate-API
+   (cached 12 h); the fallback table below is used if that request fails. */
+(() => {
+  const CUR = [["USD","$"],["CAD","$"],["GBP","£"],["EUR","€"],["AUD","$"],["GHS","₵"],["NGN","₦"]];
+  const FALLBACK = { USD: 1, CAD: 1.38, GBP: 0.75, EUR: 0.87, AUD: 1.43, GHS: 11.2, NGN: 1375 }; // Nov 2026
+  let rates = { ...FALLBACK }, live = false;
+  const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+                  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+
+  // Guess a starting currency from the visitor's time zone; a saved choice wins.
+  const guess = () => {
+    const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || "");
+    if (/^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Moncton|Montreal|Whitehorse|Yellowknife|Iqaluit)/.test(tz)) return "CAD";
+    if (tz === "Europe/London") return "GBP";
+    if (/^Europe\//.test(tz)) return "EUR";
+    if (/^Australia\//.test(tz)) return "AUD";
+    if (tz === "Africa/Accra") return "GHS";
+    if (tz === "Africa/Lagos") return "NGN";
+    return "USD";
+  };
+  let code = store.get("wc-cur");
+  if (!CUR.some(([c]) => c === code)) code = guess();
+
+  // Wrap every "$123" in page text so it can be converted.
+  const skip = /^(SCRIPT|STYLE|TEXTAREA|OPTION|SELECT|NOSCRIPT)$/;
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: (n) => (/\$\d/.test(n.nodeValue) && !skip.test(n.parentNode.nodeName) && !n.parentNode.closest(".cur")) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT });
+  const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach((n) => {
+    const frag = document.createDocumentFragment(); let last = 0; const s = n.nodeValue;
+    s.replace(/\$(\d[\d,]*)/g, (m, num, i) => {
+      frag.append(s.slice(last, i));
+      const sp = document.createElement("span"); sp.className = "cur"; sp.dataset.usd = num.replace(/,/g, ""); sp.textContent = m;
+      frag.append(sp); last = i + m.length;
+    });
+    frag.append(s.slice(last)); n.replaceWith(frag);
+  });
+  const prices = [...document.querySelectorAll(".cur")];
+  if (!prices.length && !document.querySelector(".nav,.pnav")) return;
+
+  // Round to friendly numbers: 2 significant figures of precision, halves allowed.
+  const nice = (v) => { if (v < 100) return Math.round(v); const step = Math.pow(10, Math.floor(Math.log10(v)) - 1) / 2; return Math.round(v / step) * step; };
+  const fmt = (v, c) => {
+    try { return new Intl.NumberFormat("en", { style: "currency", currency: c, maximumFractionDigits: 0, minimumFractionDigits: 0, currencyDisplay: (c === "CAD" || c === "AUD") ? "symbol" : "narrowSymbol" }).format(v); }
+    catch (e) { return c + " " + Math.round(v).toLocaleString("en"); }
+  };
+
+  const render = () => {
+    const r = rates[code] || 1;
+    prices.forEach((el) => {
+      const usd = +el.dataset.usd, txt = code === "USD" ? "$" + usd.toLocaleString("en") : fmt(nice(usd * r), code);
+      el.textContent = txt;
+      const big = el.closest(".price b,.ap b,.nicard .price,.stat");
+      el.style.fontSize = big && txt.length > 6 ? (6.4 / txt.length).toFixed(2) + "em" : "";
+    });
+    document.querySelectorAll(".curcode").forEach((el) => (el.textContent = code));
+    document.querySelectorAll(".curnote").forEach((el) => {
+      el.innerHTML = code === "USD" ? "Prices in USD."
+        : `Prices shown in ${code}, converted from USD at ${live ? "today's" : "a recent"} exchange rate and rounded. Your quote confirms the exact price.` +
+          (live ? ' <a class="ratesby" href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Rates by ExchangeRate-API</a>' : "");
+    });
+    document.querySelectorAll(".cursel").forEach((s) => (s.value = code));
+    document.documentElement.dataset.currency = code;
+  };
+
+  // The picker, added beside "Get a quote" in both bars.
+  const make = (id) => {
+    const wrap = document.createElement("label"); wrap.className = "curpick";
+    wrap.innerHTML = `<span class="sr">Currency</span><select class="cursel" id="${id}">${CUR.map(([c, sym]) => `<option value="${c}">${c} ${sym}</option>`).join("")}</select>`;
+    wrap.querySelector("select").addEventListener("change", (e) => { code = e.target.value; store.set("wc-cur", code); render(); });
+    return wrap;
+  };
+  const navBtn = document.querySelector(".nav > .btn");
+  if (navBtn) { const end = document.createElement("div"); end.className = "navend"; navBtn.replaceWith(end); end.append(make("cur-top"), navBtn); }
+  const pBtn = document.querySelector(".pnav > .btn");
+  if (pBtn) pBtn.before(make("cur-float"));
+  render();
+
+  // Live rates, cached for 12 hours.
+  const apply = (data) => { CUR.forEach(([c]) => { if (data && data[c]) rates[c] = data[c]; }); live = true; render(); };
+  let cached = null; try { cached = JSON.parse(store.get("wc-rates") || "null"); } catch (e) {}
+  if (cached && Date.now() - cached.t < 432e5) apply(cached.r);
+  else if (window.fetch) {
+    const ctl = window.AbortController ? new AbortController() : null; if (ctl) setTimeout(() => ctl.abort(), 5000);
+    fetch("https://open.er-api.com/v6/latest/USD", ctl ? { signal: ctl.signal } : {})
+      .then((r) => r.json()).then((d) => { if (d && d.result === "success" && d.rates) { store.set("wc-rates", JSON.stringify({ t: Date.now(), r: d.rates })); apply(d.rates); } })
+      .catch(() => {});
+  }
+})();
